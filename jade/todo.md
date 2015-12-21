@@ -1,44 +1,63 @@
 Master Express.js and have fun!
 ─────────────────────────────────
-STATIC
-Exercise 2 of 8
+ JADE
+ Exercise 3 of 8
 
-This exercise is about serving static assets like HTML files.
-There are many ways to do it, but we want you to apply static middleware to serve the file index.html.
+Create an Express.js app with a home page rendered by the Jade template engine.
 
-Please don't use ANY routes like app.get. ONLY static.
+The home page should respond to /home.
 
-Your solution must listen on the port number supplied by process.argv[2].
+The view should show the current date using 'new Date.toDateString()'.
 
-The index.html file is provided and usable via the path supplied by
-process.argv[3]. However, you can use your own file with this content (beware of whitespace):
-
-   <html>
-     <head>
-       <title>expressworks</title>
-       <link rel="stylesheet" type="text/css" href="/main.css"/>
-     </head>
-     <body>
-       <p>I am red!</p>
-     </body>
-   </html>
+We use 'toDateString()' to simply return the date in a human-readable format
+without the time.
 
 -------------------------------------------------------------------------------
 
 ## HINTS
 
-This is how you can call static middleware:
+The Jade template file index.jade must look like this:
 
-   app.use(express.static(path.join(__dirname, 'public')))
+    h1 Hello World
+    p Today is #{date}.
 
-For this exercise expressworks will pass you the path:
+You can use our index.jade (recommended). The path to index.jade will be provided in
+process.argv[3]. Of course, you are welcome to use your own Jade file. Just make sure it's exactly the same as ours.
 
-   app.use(express.static(process.argv[3] || path.join(__dirname, 'public')))
+This is how you can specify the path to the template files in the folder templates:
+
+    app.set('views', path.join(__dirname, 'templates'))
+
+The __dirname is the absolute path of this file and path.join is used to produce cross-platform path (Win vs. Linux/Mac).
+
+To tell Express.js app what template engine to use, apply this line to the
+Express.js configuration:
+
+    app.set('view engine', 'jade')
+
+Instead of Hello World's res.end(), the res.render() function accepts
+a template name and data (called locals):
+
+    res.render('index', {date: new Date().toDateString()})
+
+We use toDateString() to simply return the date in a human-readable format
+without the time.
+
+-------------------------------------------------------------------------------
+
+## NOTE
+
+When creating your projects from scratch, install the jade dependency with npm.
+If you run $ npm install on this package (expressworks), you should have jade installed.
+
+Again, the port to use is passed by expressworks to the application as process.argv[2].
+
+If you receive Error: Cannot find module 'jade', it is because Express is looking for Jade relative to its path. You can fix this by running npm install jade.
 
 Videos: [http://bit.ly/1jW1sBf](http://bit.ly/1jW1sBf).
 
 
-» To print these instructions again, run: expressworks print
-» To execute your program in a test environment, run: expressworks run program.js
-» To verify your program, run: expressworks verify program.js
-» For help run: expressworks help
+ » To print these instructions again, run: expressworks print
+ » To execute your program in a test environment, run: expressworks run program.js
+ » To verify your program, run: expressworks verify program.js
+ » For help run: expressworks help
