@@ -21,4 +21,4 @@ app.get('/search', function (req, res, next) {
 
 app.listen(process.argv[2] || 9000)
 
-//curl -X PUT -d id=1234 http://localhost:9000/message/1234
+//curl 'http://localhost:9000/search?results=recent&include_tabs=true
